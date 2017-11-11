@@ -1,0 +1,13 @@
+#! /usr/bin/env python3
+from engine import EnigmaMachine
+#import database
+
+#database.create_database()
+#database.populate_database()
+machine = EnigmaMachine()
+
+msg = "MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY"
+
+for i in range(1, 32):
+    trans = machine.translate(msg, day=i)
+    print(machine.translate(trans, day=i))

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+import database
 
 class EnigmaMachine():
     """
@@ -14,30 +14,39 @@ class EnigmaMachine():
     def translate(self, message, day=1):
         r_message = ''
 
-        for rotor in rotor_nums:
-            self.rotors[rotor].set(rotor_start[rotor_nums.index(rotor)])
+        self.read_chart(day)
+
+        for rotor in self.rotor_nums:
+            self.rotors[rotor].set(self.rotor_start[self.rotor_nums.index(rotor)])
 
         for char in message:
             if char.isalpha() or char == ' ':
-                char = self.sub_simple(char, plugboard)
-                char = self.sub_rotor(char, rotor_nums, 'forwards')
-                char = self.sub_simple(char, reflector)
-                char = self.sub_rotor(char, rotor_nums, 'backwards')
-                char = self.sub_simple(char, plugboard)
+                char = self.sub_simple(char, self.plugboard)
+                char = self.sub_rotor(char, self.rotor_nums, 'forwards')
+                char = self.sub_simple(char, self.reflector)
+                char = self.sub_rotor(char, self.rotor_nums, 'backwards')
+                char = self.sub_simple(char, self.plugboard)
             r_message += char
 
-            self.rotors[rotor_nums[0]].rotate()
-            if self.rotors[rotor_nums[0]].position % 27 == 0:
-                self.rotors[rotor_nums[1]].rotate()
-                if self.rotors[rotor_nums[1]].position % 27 == 0:
-                    self.rotors[rotor_nums[2]].rotate()
+            self.rotors[self.rotor_nums[0]].rotate()
+            if self.rotors[self.rotor_nums[0]].position % 27 == 0:
+                self.rotors[self.rotor_nums[1]].rotate()
+                if self.rotors[self.rotor_nums[1]].position % 27 == 0:
+                    self.rotors[self.rotor_nums[2]].rotate()
 
         return r_message
 
+    def read_chart(self, day):
+        self.rotor_nums = database.read_column(day, 'rotor_nums')
+        self.rotor_start = database.read_column(day, 'rotor_start')
+        self.reflector = database.read_column(day, 'reflector')
+        self.plugboard = database.read_column(day, 'plugboard')
+
+
     def sub_rotor(self, char, rotor_nums, direction):
-        inner = self.rotors[rotor_nums[0]].sequence
-        middle = self.rotors[rotor_nums[1]].sequence
-        outer = self.rotors[rotor_nums[2]].sequence
+        inner = self.rotors[self.rotor_nums[0]].sequence
+        middle = self.rotors[self.rotor_nums[1]].sequence
+        outer = self.rotors[self.rotor_nums[2]].sequence
         
         if direction == 'forwards':
             char = outer[inner.index(char)]
@@ -75,34 +84,3 @@ class Rotor():
     def set(self, position):
         self.sequence = self.original_sequence[position:] + self.original_sequence[0:position]
         self.position = 1
-
-
-### ALL BELOW IS TRASH ###
-
-plugboard = 'ab cd ef gh ij kl mn op qr st'.upper()
-reflector = 'ac bd ef gh iz ml kn oq pr st ux wv'.upper()
-rotor_nums = [4,0,1]
-rotor_start = [2,21,17]
-
-e = EnigmaMachine()
-
-with open('input.txt', 'r') as f:
-    inputt = f.read().upper()
-    #print(inputt)
-
-outputt = e.translate(inputt, day=1)
-
-with open('output.txt', 'w') as f:
-    f.write(outputt)
-
-outputt2 = e.translate(outputt, day=1)
-with open('output2.txt', 'w') as f:
-    f.write(outputt2)
-
-print(inputt)
-print(outputt)
-print(outputt2)
-'''
-print(e.translate('TUESDAY TUESDAY TUESDAY TUESDAY TUESDAY TUESDAY TUESDAY', day=1))
-print(e.translate('CMDI  RHCMNJ CRDKDLIDLZAYCSJQWIRITFKBUEA EEJJDKXVFWODZC', day=1))
-'''

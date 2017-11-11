@@ -1,7 +1,7 @@
 import sqlite3 as sql
 
-F_DAILY_SHEET = 'daily_sheet.db'
-F_RAW_DAILY_SHEET = 'daily_sheet_raw.txt'
+F_DAILY_SHEET = 'data/daily_sheet.db'
+F_RAW_DAILY_SHEET = 'data/raw.txt'
 
 def db_operation(operation):
     def db_wrap(*args, **kwargs):
@@ -38,8 +38,8 @@ def read_column(day, column, curse):
     curse.execute("""SELECT * FROM daily_sheet WHERE day=?""", (day,))
     row = curse.fetchone()
     data = {'day' : row[0],
-            'rotor_nums': (row[1], row[2], row[3]),
-            'rotor_start': (row[4], row[5], row[6]),
+            'rotor_nums': (row[1]-1, row[2]-1, row[3]-1),
+            'rotor_start': (row[4]-1, row[5]-1, row[6]-1),
             'reflector': row[7],
             'plugboard': row[8]}
     
