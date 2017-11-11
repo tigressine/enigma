@@ -17,7 +17,7 @@ class EnigmaMachine():
         self.read_chart(day)
 
         for rotor in self.rotor_nums:
-            self.rotors[rotor].set(self.rotor_start[self.rotor_nums.index(rotor)])
+            self.rotors[rotor].set(self.rotor_start[self.rotor_nums.index(rotor)])#PEP8
 
         for char in message:
             if char.isalpha() or char == ' ':
@@ -77,7 +77,7 @@ class Rotor():
         self.original_sequence = self.sequence
         self.position = 1
 
-    def rotate(self, shifts=1):
+    def rotate(self):
         self.sequence = self.sequence[1:] + self.sequence[:1]
         self.position += 1
 
