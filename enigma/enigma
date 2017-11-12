@@ -1,16 +1,66 @@
 #! /usr/bin/env python3
 from engine import EnigmaMachine
-from tests.test_enigma import *
-#import database
+import sys
 
-#database.create_database()
-#database.populate_database()
-"""
-machine = EnigmaMachine()
+'''
+args:
+    -i --infile : specify a path to an input text file
+    -o --outfile : specify a path to an output text file
+    -v --verbose : get loud
+    -h --help : help pls
+    -d --day : specify which day to use
 
-msg = "MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY SUNDAY"
+    example: $enigma "tuesday wednesday thursday" -d 22
+    general: $enigma [-flag] [flag arg] "message"{omit if infile}
 
-for i in range(1, 32):
-    trans = machine.translate(msg, day=i)
-    print(machine.translate(trans, day=i))
-"""
+'''
+'''
+arguments = {'-i': set_infile(),
+             '--infile': set_infile(),
+             '-o': set_outfile(),
+             '--outfile': set_outfile(),
+             '-v': set_verbosity(),
+             '--verbose': set_verbosity(),
+             '-h': command_help(),
+             '--help': command_help(),
+             '-d': 
+            }
+'''
+#print(sys.argv)
+
+if len(sys.argv) == 1:
+    command_help()
+else:
+    infile = None
+    outfile = None
+    day = 1
+    arguments = sys.argv[1:]
+    leftover = arguments
+    print(arguments)
+    print(leftover)
+    for arg in arguments:
+        print(arg)
+        if arg in ['-i', '--infile']:
+            infile = sys.argv[sys.argv.index(arg)+1]
+            leftover.remove(arg)
+            leftover.remove(infile)
+        elif arg in ['-o', '--outfile']:
+            outfile = sys.argv[sys.argv.index(arg)+1]
+            leftover.remove(arg)
+            leftover.remove(outfile)
+        elif arg in ['-v', '--verbose']:
+            print('VERBOSE!')
+        elif arg in ['-h', '--help']:
+            print('HELP!')
+        elif arg in ['-d', '--day']:
+            day = sys.argv[sys.argv.index(arg)+1]
+            leftover.remove(arg)
+            leftover.remove(day)
+
+    print(leftover)
+
+
+
+def command_help():
+    pass
+
