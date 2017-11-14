@@ -1,0 +1,18 @@
+Enigma
+
+Author: Tiger Sachse
+Release: Some date
+
+Form:
+    enigma [-flag] [flag argument] [-flag] [-flag argument]... "message"
+
+Examples:
+    enigma -h
+    enigma -o translated.txt --day 19 "Translate this message"
+
+Flags:
+    -i --infile  : Specify the path of an input file
+    -o --outfile : Specify the path of an output file
+    -v --verbose : Get loud
+    -h --help    : Print this help menu
+    -d --day     : Set the day for the machine to use during translation

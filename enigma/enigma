@@ -2,65 +2,80 @@
 from engine import EnigmaMachine
 import sys
 
-'''
-args:
-    -i --infile : specify a path to an input text file
-    -o --outfile : specify a path to an output text file
-    -v --verbose : get loud
-    -h --help : help pls
-    -d --day : specify which day to use
+F_HELP = 'help.txt'
 
-    example: $enigma "tuesday wednesday thursday" -d 22
-    general: $enigma [-flag] [flag arg] "message"{omit if infile}
+def main():
+    arg_dict = arg_parse(sys.argv[1:])
+    if arg_dict['help']:
+        help_display()
+        exit()
+    
+    if arg_dict['infile'] != None:#can possibly simplify
+        arg_dict['message'] = infile_load(arg_dict['infile'])
 
-'''
-'''
-arguments = {'-i': set_infile(),
-             '--infile': set_infile(),
-             '-o': set_outfile(),
-             '--outfile': set_outfile(),
-             '-v': set_verbosity(),
-             '--verbose': set_verbosity(),
-             '-h': command_help(),
-             '--help': command_help(),
-             '-d': 
-            }
-'''
-#print(sys.argv)
+    e = EnigmaMachine()
+    translated_message = e.translate(arg_dict['message'], arg_dict['day'])
 
-if len(sys.argv) == 1:
-    command_help()
-else:
-    infile = None
-    outfile = None
-    day = 1
-    arguments = sys.argv[1:]
-    leftover = arguments
-    print(arguments)
-    print(leftover)
-    for arg in arguments:
-        print(arg)
-        if arg in ['-i', '--infile']:
-            infile = sys.argv[sys.argv.index(arg)+1]
-            leftover.remove(arg)
-            leftover.remove(infile)
-        elif arg in ['-o', '--outfile']:
-            outfile = sys.argv[sys.argv.index(arg)+1]
-            leftover.remove(arg)
-            leftover.remove(outfile)
-        elif arg in ['-v', '--verbose']:
-            print('VERBOSE!')
-        elif arg in ['-h', '--help']:
-            print('HELP!')
-        elif arg in ['-d', '--day']:
-            day = sys.argv[sys.argv.index(arg)+1]
-            leftover.remove(arg)
-            leftover.remove(day)
+    if arg_dict['outfile'] != None:
+        outfile_write(translated_message, arg_dict['outfile'])
+    else:
+        print(translated_message)
 
-    print(leftover)
+def arg_parse(args):
+    arg_dict = {'infile' : None,
+                'outfile' : None,
+                'day' : 1,
+                'verbose' : False,
+                'help' : False,
+                'message' : None}
+    remaining_args = list(args)
+    
+    for arg, nextarg in zip(args, args[1:]+[""]):
+        if arg[0] == '-':
+            remaining_args.remove(arg)
+            if arg in ['-i', '--infile']:
+                arg_dict['infile'] = nextarg
+                remaining_args.remove(nextarg)
+            elif arg in ['-o', '--outfile']:
+                arg_dict['outfile'] = nextarg
+                remaining_args.remove(nextarg)
+            elif arg in ['-d', '--day']:
+                if int(nextarg) > 31 or int(nextarg) < 1:
+                    print("ERROR 2: Day out of range [1, 31].")
+                    exit()
+                arg_dict['day'] = nextarg
+                remaining_args.remove(nextarg)
+            elif arg in ['-v', '--verbose']:
+                arg_dict['verbose'] = True
+            elif arg in ['-h', '--help']:
+                arg_dict['help'] = True
+    
+    if len(remaining_args) == 1:
+        arg_dict['message'] = remaining_args[0]
+    elif len(remaining_args) == 0:
+        arg_dict['message'] = None
+    else:
+        print("ERROR 1: Too many arguments.")
+        exit()
 
+    return arg_dict
 
+def help_display():
+    with open(F_HELP, 'r') as f:
+        print(f.read())
 
-def command_help():
-    pass
+def infile_load(path):
+    try:
+        with open(path, 'r') as f:
+            message = f.read()
+        return message
+    except FileNotFoundError:
+        print("ERROR 3: Infile does not exist.")
+        exit()
 
+def outfile_write(message, path):
+    with open(path, 'w') as f:
+        f.write(message)
+
+if __name__ == '__main__':
+    main()
