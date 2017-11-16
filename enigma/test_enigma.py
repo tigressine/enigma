@@ -1,30 +1,20 @@
 #! /usr/bin/env python3
-import unittest
 import engine
-import database
 import random
-
-F_TEST_INPUT = 'test_input.txt'
-E = engine.EnigmaMachine()
-with open(F_TEST_INPUT, 'r') as f:
-    remove_newline = lambda x: list(filter(lambda y: y != '', x.split('\n')))
-    SAMPLE = remove_newline(f.read().upper())#temp
-
-def double_translate(message, day=1):
-    return E.translate(E.translate(message, day), day)
+import database
+import unittest
 
 class TestEnigma(unittest.TestCase):
-    
-    def test_000_bulk_translation(self):
+    def test_000_translate_bulk(self):
         for string in SAMPLE:
             self.assertEqual(double_translate(string), string)
 
-    def test_001_custom_days(self):
+    def test_001_translate_by_day_true(self):
         for i in range(1, 32):
             sample = random.choice(SAMPLE)
             self.assertEqual(double_translate(sample, i), sample)
 
-    def test_002_custom_days_wrong(self):
+    def test_002_translate_by_day_false(self):
         for i in range(1, 32):
             sample = random.choice(SAMPLE)
             self.assertNotEqual(double_translate(sample[::-1], i), sample)
@@ -52,6 +42,18 @@ class TestEnigma(unittest.TestCase):
             break
     '''
 
+def double_translate(message, day=1):
+    return E.translate(E.translate(message, day), day)
+
+def open_sample():
+    with open(F_TEST_INPUT, 'r') as f:
+        del_newline = lambda x: list(filter(lambda y: y != '', x.split('\n')))
+        sample = del_newline(f.read().upper())#temp
+    return sample
+
+E = engine.EnigmaMachine()
+F_TEST_INPUT = 'test_input.txt'
+SAMPLE = open_sample()
 
 if __name__ == '__main__':
     unittest.main()
