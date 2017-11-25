@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 from setuptools import setup
 
 def load_description():
@@ -33,5 +34,5 @@ setup(
     data_files=[
         ('bin', ['enigma/enigma']),
         ('share/doc/enigma', ['docs/LICENSE.txt', 'docs/README.md']),
-        ('var/lib/enigma', ['enigma/data/raw.txt'])]
+        ('share/enigma', ['enigma/data/daily_sheet.db'])]
     )
