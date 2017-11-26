@@ -3,7 +3,12 @@ import sys
 import enigma
 
 def main():
+    if len(sys.argv) < 2:
+        help_display()
+        exit()
+
     arg_dict = arg_parse(sys.argv[1:])
+    
     if arg_dict['help']:
         help_display()
         exit()
@@ -11,7 +16,7 @@ def main():
     if arg_dict['infile'] != None:#can possibly simplify
         arg_dict['message'] = infile_load(arg_dict['infile'])
 
-    e = EnigmaMachine()
+    e = enigma.Machine()
     translated_message = e.translate(arg_dict['message'], arg_dict['day'])
 
     if arg_dict['outfile'] != None:
@@ -22,7 +27,7 @@ def main():
 def arg_parse(args):
     arg_dict = {'infile' : None,
                 'outfile' : None,
-                'day' : 1,
+                'day' : 0,
                 'verbose' : False,
                 'help' : False,
                 'message' : None}
@@ -41,7 +46,7 @@ def arg_parse(args):
                 if int(nextarg) > 31 or int(nextarg) < 1:
                     print("ERROR 2: Day out of range [1, 31].")
                     exit()
-                arg_dict['day'] = nextarg
+                arg_dict['day'] = int(nextarg) - 1
                 remaining_args.remove(nextarg)
             elif arg in ['-v', '--verbose']:
                 arg_dict['verbose'] = True
@@ -59,8 +64,11 @@ def arg_parse(args):
     return arg_dict
 
 def help_display():
+    """
     with open(F_HELP, 'r') as f:
         print(f.read())
+    """
+    print("help")
 
 def infile_load(path):
     try:
@@ -75,5 +83,5 @@ def outfile_write(message, path):
     with open(path, 'w') as f:
         f.write(message)
 
-if __name__ == '__main__':
-    main()
+# MAIN PROGRAM #
+main()
