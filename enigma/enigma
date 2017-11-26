@@ -2,8 +2,6 @@
 import sys
 import enigma
 
-F_HELP = 'help.txt'
-
 def main():
     arg_dict = arg_parse(sys.argv[1:])
     if arg_dict['help']:

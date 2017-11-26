@@ -1,16 +1,30 @@
 import sqlite3 as sql
 
-F_DAILY_SHEET = '/usr/share/enigma/daily_sheet.db'
+#F_ENIGMA_DATA = '/usr/share/enigma/enigma.db'
+F_ENIGMA_DATA = 'enigma.db'
 
-class EnigmaMachine():
+def db_operation(operation):
+    def db_wrap(*args, **kwargs):
+        db = sql.connect(F_ENIGMA_DATA)
+        curse = db.cursor()
+
+        result = operation(*args, curse, **kwargs)
+
+        db.close()
+        return result
+
+    return db_wrap
+
+@db_operation
+def get_rotors(curse):
+    curse.execute('SELECT * FROM rotors')
+    return curse.fetchall()
+
+class Machine():
     """
     """
     def __init__(self):
-        self.rotors = [Rotor('AUNGHOVBIPWCJQXDKRY ELSZFMT'),
-                       Rotor('O JETYCHMRWAFKPUZDINSXBGLQV'),
-                       Rotor('FBDHJLNPRTVXZACEGI KMOQSUWY'),
-                       Rotor('HKPDEAC WTVQMYNLXSURZOJFBGI'),
-                       Rotor('YDNGLCIQVEZRPTAOXWBMJSUHK F')]
+        self.rotors = get_rotors()
 
     def translate(self, message, day=1):
         r_message = ''
@@ -36,19 +50,15 @@ class EnigmaMachine():
                     self.rotors[self.rotor_nums[2]].rotate()
 
         return r_message
-
-    def read_chart(self, day):
-        db = sql.connect(F_DAILY_SHEET)
-        curse = db.cursor()
-
+    
+    @db_operation
+    def read_chart(self, day, curse):
         curse.execute('SELECT * FROM daily_sheet WHERE day=?', (day,))
         row = curse.fetchone()
         self.rotor_nums = (row[1]-1, row[2]-1, row[3]-1)
         self.rotor_start = (row[4]-1, row[5]-1, row[6]-1)
         self.reflector = row[7]
         self.plugboard = row[8]
-
-        db.close()
 
     def sub_rotor(self, char, rotor_nums, direction):
         inner = self.rotors[self.rotor_nums[0]].sequence
