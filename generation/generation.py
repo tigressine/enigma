@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 import random
+import database
 
 def gen_chars():
     chars = []
@@ -43,3 +44,4 @@ def gen_chart():
 rotor1 = gen_rotors()
 #print(rotor1)
 gen_chart()
+# send generated shit to database .py

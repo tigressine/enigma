@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
-from engine import EnigmaMachine
 import sys
+import enigma
 
 F_HELP = 'help.txt'
 

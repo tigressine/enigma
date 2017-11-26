@@ -1,8 +1,9 @@
-import database
+import sqlite3 as sql
+
+F_DAILY_SHEET = '/usr/share/enigma/daily_sheet.db'
 
 class EnigmaMachine():
     """
-
     """
     def __init__(self):
         self.rotors = [Rotor('AUNGHOVBIPWCJQXDKRY ELSZFMT'),
@@ -37,11 +38,17 @@ class EnigmaMachine():
         return r_message
 
     def read_chart(self, day):
-        self.rotor_nums = database.read_column(day, 'rotor_nums')
-        self.rotor_start = database.read_column(day, 'rotor_start')
-        self.reflector = database.read_column(day, 'reflector')
-        self.plugboard = database.read_column(day, 'plugboard')
+        db = sql.connect(F_DAILY_SHEET)
+        curse = db.cursor()
 
+        curse.execute('SELECT * FROM daily_sheet WHERE day=?', (day,))
+        row = curse.fetchone()
+        self.rotor_nums = (row[1]-1, row[2]-1, row[3]-1)
+        self.rotor_start = (row[4]-1, row[5]-1, row[6]-1)
+        self.reflector = row[7]
+        self.plugboard = row[8]
+
+        db.close()
 
     def sub_rotor(self, char, rotor_nums, direction):
         inner = self.rotors[self.rotor_nums[0]].sequence
@@ -70,7 +77,6 @@ class EnigmaMachine():
 
 class Rotor():
     """
-
     """
     def __init__(self, sequence):
         self.sequence = sequence
