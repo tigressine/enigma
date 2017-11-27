@@ -1,7 +1,7 @@
 import sqlite3 as sql
 
-#F_ENIGMA_DATA = '/usr/share/enigma/enigma.db'
-F_ENIGMA_DATA = 'enigma.db'
+F_ENIGMA_DATA = '/usr/share/enigma/enigma.db'
+#F_ENIGMA_DATA = 'enigma.db'
 
 def db_operation(operation):
     def db_wrap(*args, **kwargs):
