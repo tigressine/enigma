@@ -1,59 +1,48 @@
 #! /usr/bin/env python3
-import engine
+import enigma
 import random
-import database
 import unittest
 
 class TestEnigma(unittest.TestCase):
+
     def test_000_translate_bulk(self):
-        for string in SAMPLE:
-            self.assertEqual(double_translate(string), string)
+        sample = generate_sample(100000)
+        self.assertEqual(double_translate(sample), sample)
 
     def test_001_translate_by_day_true(self):
-        for i in range(1, 32):
-            sample = random.choice(SAMPLE)
-            self.assertEqual(double_translate(sample, i), sample)
+        for day in range(0, 31):
+            sample = generate_sample(1000)
+            self.assertEqual(double_translate(sample, day), sample)
 
     def test_002_translate_by_day_false(self):
-        for i in range(1, 32):
-            sample = random.choice(SAMPLE)
-            self.assertNotEqual(double_translate(sample[::-1], i), sample)
-    '''
-    def test_002_rotor_set(self):
-        self.e.rotors[0].set(20)
-        self.assertEqual(self.e.rotors[0].sequence[0], self.e.rotors[0].original_sequence[20])
-        self.sample = 'T'
-        for i in range(1,32):
-            self.e.translate(self.sample, day=i)
-            for rotor in self.e.rotor_nums:
-                first = self.e.rotors[rotor].sequence[0]
-                o_first = self.e.rotors[rotor].original_sequence[
-                                                self.e.rotor_start[self.e.rotor_nums.index(rotor)]]
-                print(first, o_first)
-                self.assertEqual(first, o_first)
-    def test_002_rotor_rotation(self):
-        print(len(self.sample)/27/27)
-        self.e.translate(self.sample)
-        for rotor in self.e.rotor_nums:
-            print(self.e.rotors[rotor].original_sequence)
-            print(self.e.rotors[rotor].sequence)
-            self.e.rotors[rotor].set(self.e.rotor_start[0])
-            print(self.e.rotors[rotor].sequence)
-            break
-    '''
+        for day in range(0, 31):
+            sample = generate_sample(1000)
+            self.assertNotEqual(double_translate(sample[::-1], day), sample)
 
-def double_translate(message, day=1):
+    def test_003_rotate_rotors(self):
+        rotations = random.randint(8281, 100000)
+        sample = generate_sample(rotations)
+        E.translate(sample)
+        self.assertEqual(E.daily_rotors[0].position, rotations)
+        self.assertEqual(E.daily_rotors[1].position, rotations//91)
+        self.assertEqual(E.daily_rotors[2].position, rotations//91//91)
+
+    def test_004_handle_special_char(self):
+        sample = generate_sample(10) + '$' + generate_sample(10)
+        with self.assertRaises(SystemExit):
+            E.translate(sample)
+
+def double_translate(message, day=0):
     return E.translate(E.translate(message, day), day)
 
-def open_sample():
-    with open(F_TEST_INPUT, 'r') as f:
-        del_newline = lambda x: list(filter(lambda y: y != '', x.split('\n')))
-        sample = del_newline(f.read().upper())#temp
+def generate_sample(length):
+    sample = ''
+    bad_ASCII = [34, 36, 92, 96]
+    chars = [chr(char) for char in range(32, 127) if char not in bad_ASCII]
+
+    for letter in range(length):
+        sample += random.choice(chars)
     return sample
 
-E = engine.EnigmaMachine()
-F_TEST_INPUT = 'test_input.txt'
-SAMPLE = open_sample()
-
-if __name__ == '__main__':
-    unittest.main()
+E = enigma.Machine()
+unittest.main(buffer=True)

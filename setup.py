@@ -2,11 +2,8 @@
 from setuptools import setup
 
 def load_description():
-    try:
-        with open('docs/README.md', 'r') as f:
-            long_description = f.read()
-    except FileNotFoundError:
-        long_description = 'something'###
+    with open('docs/README.md', 'r') as f:
+        long_description = f.read()
     return long_description
 
 setup(
@@ -18,21 +15,22 @@ setup(
     url='https://github.com/tgsachse/enigma',
     license='GPLv3',
     classifiers=[
-        'Development Status :: 5 - Stable',
-        'Environment :: COnsole',
-        'Intended Audience :: End Users/Desktop',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Natural Language :: English',
-        'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 3 :: Only',
+        'Environment :: Console',
         'Topic :: Communications',
+        'Topic :: Text Processing',
+        'Natural Language :: English',
+        'Development Status :: 5 - Stable',
         'Topic :: Security :: Cryptography',
-        'Topic :: Text Processing'],
+        'Operating System :: POSIX :: Linux',
+        'Intended Audience :: End Users/Desktop',
+        'Programming Language :: Python :: 3 :: Only',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'],
     keywords='enigma encryption wwii cryptography hidden messages germany war',
     packages=['enigma'],
     python_requires='>=3',
     data_files=[
         ('bin', ['enigma/enigma']),
-        ('share/doc/enigma', ['docs/LICENSE.txt', 'docs/README.md']),
-        ('share/enigma', ['enigma/data/daily_sheet.db'])]
+        ('share/man/man1', ['docs/enigma.1']),
+        ('share/enigma', ['enigma/data/enigma.db']),
+        ('share/doc/enigma', ['docs/LICENSE.txt', 'docs/README.md'])]
     )

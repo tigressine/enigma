@@ -35,7 +35,7 @@ def create(curse):
                                                rotor_outer_start int,
                                                reflector text,
                                                plugboard text)""")
-    curse.execute("""CREATE TABLE rotors (rotor_num int, rotor text)""") 
+    curse.execute("""CREATE TABLE rotors (rotor text)""") 
 
 @db_operation
 def append(table, data, curse):
@@ -43,7 +43,7 @@ def append(table, data, curse):
         curse.execute("""INSERT INTO daily_sheet VALUES
                          (?,?,?,?,?,?,?,?,?)""", data)
     elif table == 'rotors':
-        curse.execute("""INSERT INTO rotors VALUES (?,?)""", data)
+        curse.execute("""INSERT INTO rotors VALUES (?)""", data)
 
 @db_operation
 def populate(daily_data, rotor_data, curse):
@@ -58,5 +58,5 @@ def populate(daily_data, rotor_data, curse):
                 daily_data['reflector'][day],
                 daily_data['plugboard'][day])
         append('daily_sheet', data)
-    for rotor in range(0, 5):
-        append('rotors', (rotor, rotor_data[rotor]))
+    for rotor in rotor_data:
+        append('rotors', (rotor,))
