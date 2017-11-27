@@ -72,6 +72,11 @@ def help_display():
     print("help")
 
 def infile_load(path):
+    if path[0] + path[1] == '~/':
+        path = os.path.expanduser(path)
+    elif path[0] != '/':
+        path = os.getcwd() + '/' + path
+    
     try:
         with open(path, 'r') as f:
             message = f.read()
