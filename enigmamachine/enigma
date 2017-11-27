@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
+import os
 import sys
-import enigma
+from enigmamachine import enigma
 
 def main():
     if len(sys.argv) < 2:

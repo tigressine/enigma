@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
-import enigma
 import random
 import unittest
+from enigmamachine import enigma
 
 class TestEnigma(unittest.TestCase):
 

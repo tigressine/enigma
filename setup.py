@@ -26,11 +26,11 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'],
     keywords='enigma encryption wwii cryptography hidden messages germany war',
-    packages=['enigma'],
+    packages=['enigmamachine'],
     python_requires='>=3',
     data_files=[
-        ('bin', ['enigma/enigma']),
+        ('bin', ['enigmamachine/enigma']),
         ('share/man/man1', ['docs/enigma.1']),
-        ('share/enigma', ['enigma/data/enigma.db']),
+        ('share/enigma', ['enigmamachine/data/enigma.db']),
         ('share/doc/enigma', ['docs/LICENSE.txt', 'docs/README.md'])]
     )

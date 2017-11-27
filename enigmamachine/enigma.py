@@ -1,7 +1,6 @@
 import sqlite3 as sql
 
-F_ENIGMA_DATA = '/usr/share/enigma/enigma.db'
-#F_ENIGMA_DATA = 'enigma.db'
+F_ENIGMA_DATA = '/usr/local/share/enigma/enigma.db'
 
 def db_operation(operation):
     def db_wrap(*args, **kwargs):
@@ -41,8 +40,11 @@ class Machine():
                 char = self.sub_simple(char, self.plugboard)
                 r_message += char
             except ValueError:
-                print("Message contains invalid character: ` \ \" or $")
-                quit()
+                if char == '\n':
+                    r_message += char
+                else:
+                    print("Message contains invalid character: ` \ \" or $")
+                    quit()
 
             self.daily_rotors[0].rotate()
             if self.daily_rotors[0].position % 91 == 0:#check num
