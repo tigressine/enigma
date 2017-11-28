@@ -1,5 +1,83 @@
 .TH enigma 1 "30 November 2017" "0.0.1"
+
 .SH NAME
-Enigma - 
+enigma - keep your wartime correspondence safe from Allied spies!
+
 .SH SYNOPSIS
-engima [command]
+engima [-flag] [flag options]... "secret message"
+
+.SH DESCRIPTION
+This program simulates the enigma machine used by the Nazis during World War II. It allows the user to translate messages of any length, containing nearly all ASCII characters, into an encrypted format that can only be decoded by a separate enigma machine with the same settings.
+.PP
+The German enigma machine worked using a system of rotors, plugboards and reflectors to translate characters into different characters. The rotors turned as the message was translated, so identical characters in different parts of the message would be encoded as different characters, making this encoding method much more complicated and difficult to decipher than simple character substitution.
+.PP
+This program includes options to support file input/output as well as 31 days worth of options for encryption, much like the original machine had.
+.PP
+This program was written mostly to further my personal knowledge of Python, encryption, packaging and command line interfaces. It should not be used to encrypt any important messages, and is only intended to be used for fun.
+.SH OPTIONS
+.B -h, --help:
+.RS 4
+display a help menu for quick reference
+.RE
+.PP
+.B -i, --infile:
+.RS 4
+specify the location of an input file, path can be relative or absolute
+.RE
+.PP
+.B -o, --outfile:
+.RS 4
+specify the location of an output file, path can be relative or absolute
+.RE
+.PP
+.B -d, --day:
+.RS 4
+encrypt/decrypt using this day's rotor, plugboard, and reflector settings
+.RE
+.PP
+.B -v, --version:
+.RS 4
+display version information
+.RE
+
+.SH EXAMPLES
+Translate a message using the enigma machine:
+.RS 2
+$ enigma "translate this message"
+.RE
+.PP
+Translate a message using a specific day's settings:
+.RS 2
+$ enigma -d 10 "translate this message"
+.RE
+.PP
+Translate a text file:
+.RS 2
+$ enigma -i "translate.txt"
+.RE
+.PP
+Send translated message to a text file:
+.RS 2
+$ enigma -o "translated.txt" "translate this message"
+.RE
+.PP
+Chain options to translate a file using a specific day's settings:
+.RS 2
+$ enigma -d 25 -i "translate.txt"
+.RE
+.PP
+Show version information
+.RS 2
+$ enigma --version
+.RE
+
+.SH LICENSE
+GPLv3
+
+.SH SOURCE
+Visit
+.I www.github.com/tgsachse/enigma
+to view the source code for this program and give this project a star if you really liked it!
+
+.SH AUTHOR
+Tiger Sachse (tgsachse) <tgsachse@gmail.com>
