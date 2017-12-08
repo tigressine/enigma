@@ -1,4 +1,4 @@
-# ENIGMA
+# enigma
 A CLI engima machine that keeps your wartime messages secret!
 
 This program simulates the enigma machine used by the Nazis during World War II. It allows the user to translate messages of any length, containing nearly all ASCII characters, into an encrypted format that can only be decoded by a separate enigma machine with the same settings.
@@ -9,7 +9,7 @@ This program includes options to support file input/output as well as 31 days wo
 
 This  program  was  written mostly to further my personal knowledge of Python, encryption, packaging and command line interfaces. It should not be used to encrypt any important messages, and is only intended to be used for fun.
 
-# INSTALLATION
+# installation
 If python3 or pip are not installed, run these commands (for Ubuntu):
 ```
 $ sudo apt install python3 
@@ -20,7 +20,7 @@ Other Linux distros and non-Linux operating systems will require different instr
 $ sudo pip3 install enigmamachine
 ```
 
-# FLAGS
+# flags
 ```
 -h, --help:   
     display a help menu for quick reference
@@ -38,7 +38,7 @@ $ sudo pip3 install enigmamachine
    display version information
 ```
 
-# EXAMPLES
+# examples
 
 Translate a message using the enigma machine:   
 ```
@@ -66,7 +66,7 @@ Show version information
 $ enigma --version
 ```
 
-# CREDITS
+# credits
 Author: [Tiger Sachse](https://github.com/tgsachse)  
 Version: 1.0.0  
 License: [MIT](LICENSE.txt)  
