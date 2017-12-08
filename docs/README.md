@@ -68,5 +68,5 @@ $ enigma --version
 
 # credits
 Author: [Tiger Sachse](https://github.com/tgsachse)  
-Version: 1.0.0  
+Version: 1.0.1
 License: [MIT](LICENSE.txt)  
