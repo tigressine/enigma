@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 import os
 import sys
+import subprocess
 from enigmamachine import enigma
 
 def main():
@@ -65,11 +66,7 @@ def arg_parse(args):
     return arg_dict
 
 def help_display():
-    """
-    with open(F_HELP, 'r') as f:
-        print(f.read())
-    """
-    print("help")
+    subprocess.call(['man', 'enigma']);
 
 def infile_load(path):
     if path[0] + path[1] == '~/':
