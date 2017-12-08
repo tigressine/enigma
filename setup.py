@@ -7,7 +7,7 @@ def load_description():
     return long_description
 
 setup(
-    name='Enigma',
+    name='enigmamachine',
     version='1.0.0',
     author='Tiger Sachse',
     description='Protect your correspondence from Allied spies!',
@@ -19,7 +19,7 @@ setup(
         'Topic :: Communications',
         'Topic :: Text Processing',
         'Natural Language :: English',
-        'Development Status :: 5 - Stable',
+        'Development Status :: 5 - Production/Stable',
         'Topic :: Security :: Cryptography',
         'Operating System :: POSIX :: Linux',
         'Intended Audience :: End Users/Desktop',
